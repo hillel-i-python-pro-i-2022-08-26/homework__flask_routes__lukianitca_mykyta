@@ -6,10 +6,12 @@
         <p style="font-size: 20px;">These are the heroes:</p>
         <ul>
             {% for astronaut in astro['people'] %}
-                <li>
-                    <span style="font-weight: bold;">Name: {{ astronaut['name'] }}</span>
-                    Craft: {{ astronaut['craft'] }}
-                </li>
+                <div style="margin-top: 7px; border-bottom: black 1px solid;">
+                    <li>
+                        <p><span style="font-weight: bold;">Name: {{ astronaut['name'] }}</span></p>
+                        <p>Craft: {{ astronaut['craft'] }}</p>
+                    </li>
+                </div>
             {% endfor %}
         </ul>
     </div>

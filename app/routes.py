@@ -1,7 +1,7 @@
 from flask import render_template, abort
 from app import app
 from app.data_work import read_txt
-from .users_info import generate_users
+from .users_info import generate_users, get_astronauts
 from webargs import fields
 from webargs.flaskparser import use_args
 
@@ -31,7 +31,8 @@ def show_users_info(args: dict):
 
 @app.route("/space")
 def show_cosmonauts():
-    return render_template()
+    astro_dict = get_astronauts()
+    return render_template("astronauts.html", title="Astronauts", astro=astro_dict)
 
 
 @app.route("/mean")
