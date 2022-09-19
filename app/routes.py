@@ -1,6 +1,6 @@
 from flask import render_template, abort
 from app import app
-from app.data_work import read_txt
+from app.data_work import read_txt, get_average_data
 from .users_info import generate_users, get_astronauts
 from webargs import fields
 from webargs.flaskparser import use_args
@@ -37,4 +37,5 @@ def show_cosmonauts():
 
 @app.route("/mean")
 def calculate_people_info():
-    pass
+    avg_data = get_average_data()
+    return render_template("avg_data.html", title="Live research", avg_data=avg_data)
