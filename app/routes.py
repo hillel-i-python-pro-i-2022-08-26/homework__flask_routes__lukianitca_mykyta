@@ -4,6 +4,7 @@ from app.data_work import read_txt
 from .users_info import generate_users
 from webargs import fields
 from webargs.flaskparser import use_args
+from .custom_validators import generate_users_validate
 
 
 @app.route("/")
@@ -21,13 +22,12 @@ def show_txt():
 @use_args({"user_num": fields.Int()}, location="query")
 def show_users_info(args):
     user_num = args.get("user_num")
-    if user_num in range(1, 250):
-        users = generate_users()
+    if generate_users_validate(user_num):
+        users = generate_users(user_num)
         return render_template(
             "gen_users.html", title="Users Information", users_list=users
         )
-    else:
-        return abort(404, "Incorrect number of users")
+    return abort(404, "Incorrect number of users")
 
 
 @app.route("/space")
