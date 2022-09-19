@@ -1,4 +1,9 @@
+from flask import render_template
 from app import app
+from app.data_work import read_txt
+from .users_info import generate_users
+from webargs import fields
+from webargs.flaskparser import use_args
 
 
 @app.route("/")
@@ -8,12 +13,17 @@ def index():
 
 @app.route("/requirements")
 def show_txt():
-    pass
+    text: str = read_txt()
+    return render_template("requirements.html", title="Requirements", text=text)
 
 
 @app.route("/generate-users")
-def generate_users():
-    pass
+@use_args({"user_num": fields.Int(required=True)}, location="query")
+def show_users_info():
+    users = generate_users(22)
+    return render_template(
+        "gen_users.html", title="Users Information", users_list=users
+    )
 
 
 @app.route("/space")
