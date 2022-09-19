@@ -18,16 +18,16 @@ def show_txt():
 
 
 @app.route("/generate-users")
-@use_args({"user_num": fields.Int(required=True)}, location="query")
+@use_args({"user_num": fields.Int()}, location="query")
 def show_users_info(args):
-    user_num = args["user_num"]
+    user_num = args.get("user_num")
     if user_num in range(1, 250):
         users = generate_users()
         return render_template(
             "gen_users.html", title="Users Information", users_list=users
         )
     else:
-        return abort(404)
+        return abort(404, "Incorrect number of users")
 
 
 @app.route("/space")
