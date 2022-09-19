@@ -1,4 +1,4 @@
-from flask import render_template
+from flask import render_template, abort
 from app import app
 from app.data_work import read_txt
 from .users_info import generate_users
@@ -19,11 +19,15 @@ def show_txt():
 
 @app.route("/generate-users")
 @use_args({"user_num": fields.Int(required=True)}, location="query")
-def show_users_info():
-    users = generate_users(22)
-    return render_template(
-        "gen_users.html", title="Users Information", users_list=users
-    )
+def show_users_info(args):
+    user_num = args["user_num"]
+    if user_num in range(1, 250):
+        users = generate_users()
+        return render_template(
+            "gen_users.html", title="Users Information", users_list=users
+        )
+    else:
+        return abort(404)
 
 
 @app.route("/space")
