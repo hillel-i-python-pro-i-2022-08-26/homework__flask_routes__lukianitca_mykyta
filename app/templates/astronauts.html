@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Total amount of astronauts in the space now: {{ astro['number'] }}!</h2>
+    <div>
+        <p style="font-size: 20px;">These are the heroes:</p>
+        <ul>
+            {% for astronaut in astro['people'] %}
+                <li>
+                    <span style="font-weight: bold;">Name: {{ astronaut['name'] }}</span>
+                    Craft: {{ astronaut['craft'] }}
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

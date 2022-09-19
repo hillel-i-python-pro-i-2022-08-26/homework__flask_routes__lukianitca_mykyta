@@ -19,7 +19,7 @@ def show_txt():
 
 @app.route("/generate-users")
 @use_args({"user_num": fields.Int()}, location="query")
-def show_users_info(args):
+def show_users_info(args: dict):
     user_num = args.get("user_num", 100)
     if user_num in range(1, 251):
         users = generate_users(user_num)
@@ -31,7 +31,7 @@ def show_users_info(args):
 
 @app.route("/space")
 def show_cosmonauts():
-    pass
+    return render_template()
 
 
 @app.route("/mean")
