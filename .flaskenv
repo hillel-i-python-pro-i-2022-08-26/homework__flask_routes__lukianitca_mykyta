@@ -1,2 +1,2 @@
-FLASK_APP=people_info.py
+FLASK_APP=mini_storage.py
 FLASK_DEBUG=True
