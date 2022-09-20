@@ -4,7 +4,7 @@ from typing import Generator
 
 
 def generate_users(users_number: int) -> Generator:
-    fake = Faker()
+    fake = Faker("uk_UA")
     return (f"{fake.first_name()} {fake.email()}" for _ in range(users_number))
 
 
