@@ -9,7 +9,7 @@ from typing import Generator
 
 @app.route("/")
 def index():
-    return "<h1>Hello user!</h1>"
+    return render_template("index.html", title="Main Page")
 
 
 @app.route("/requirements")
