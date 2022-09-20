@@ -1,4 +1,4 @@
-name: Autoformat config
+name: Autoformat && check config
 
 on: [ pull_request ]
 
