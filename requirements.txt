@@ -13,5 +13,6 @@ numpy==1.23.3
 
 # code reformatting & checking
 black==22.8.0
+flake8==5.0.4
 pre-commit==2.20.0
 pyupgrade==2.38.0
