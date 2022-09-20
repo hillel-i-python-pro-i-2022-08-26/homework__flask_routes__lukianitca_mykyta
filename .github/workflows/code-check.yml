@@ -21,3 +21,6 @@ jobs:
       - name: Make autoformatting
         run:
           black ./
+      - name: Check codestyle
+        run:
+          flake8 ./
