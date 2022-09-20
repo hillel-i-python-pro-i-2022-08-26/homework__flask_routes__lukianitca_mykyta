@@ -4,6 +4,7 @@ from app.data_work import read_txt, get_average_data
 from .users_info import generate_users, get_astronauts
 from webargs import fields
 from webargs.flaskparser import use_args
+from typing import Generator
 
 
 @app.route("/")
@@ -20,9 +21,9 @@ def show_txt():
 @app.route("/generate-users")
 @use_args({"user_num": fields.Int()}, location="query")
 def show_users_info(args: dict):
-    user_num = args.get("user_num", 100)
+    user_num: int = args.get("user_num", 100)
     if user_num in range(1, 251):
-        users = generate_users(user_num)
+        users: Generator = generate_users(user_num)
         return render_template(
             "gen_users.html", title="Users Information", users_list=users
         )
@@ -31,11 +32,11 @@ def show_users_info(args: dict):
 
 @app.route("/space")
 def show_cosmonauts():
-    astro_dict = get_astronauts()
+    astro_dict: dict = get_astronauts()
     return render_template("astronauts.html", title="Astronauts", astro=astro_dict)
 
 
 @app.route("/mean")
 def calculate_people_info():
-    avg_data = get_average_data()
+    avg_data: dict = get_average_data()
     return render_template("avg_data.html", title="Live research", avg_data=avg_data)
