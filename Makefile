@@ -1,3 +1,3 @@
 .PHONY: homework-i-run
 homework-i-run:
-	@flask run
+	@python mini_wiki.py
