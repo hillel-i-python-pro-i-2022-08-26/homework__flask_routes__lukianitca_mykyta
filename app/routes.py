@@ -31,7 +31,7 @@ def show_users_info(args: dict):
 @app.route("/space")
 def show_cosmonauts():
     astro_dict: dict = get_cosmonauts()
-    return render_template("astronauts.html", title="Astronauts", astro=astro_dict)
+    return render_template("cosmonauts.html", title="Cosmonauts", astro=astro_dict)
 
 
 @app.route("/mean")
