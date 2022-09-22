@@ -1,12 +1,12 @@
-import pandas as pd
 import numpy as np
-import pathlib
+import pandas as pd
 
-cur_dir = pathlib.Path(__file__).parent
+from .data_work_config import DataWorkConfig
 
 
 def get_average_data() -> dict:
-    df_users = pd.read_csv(cur_dir.joinpath("storage/people_data.csv"))
+    file_csv_path = DataWorkConfig.storage_directory.joinpath("people_data.csv")
+    df_users = pd.read_csv(file_csv_path)
     mean_d = df_users.mean(axis=0)
     dict_users_data = {
         "avg_height": np.around(mean_d[1] * 2.54, 2),
