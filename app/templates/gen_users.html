@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div>
+        <h2>Users with the best rating:</h2>
+        <ol>
+            {% for user in users_list %}
+                <li style="padding-top: 8px; font-size: 18px;">{{ user }}</li>
+            {% endfor %}
+        </ol>
+    </div>
+{% endblock %}

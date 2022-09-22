@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+</head>
+<body>
+    <div style="margin: 0 15px">
+        <h1 style="margin-bottom: 15px;">
+            <a href="{{ url_for('index') }}" style="color: black; text-decoration:none;">Mini-Wiki site!</a>
+        </h1>
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>

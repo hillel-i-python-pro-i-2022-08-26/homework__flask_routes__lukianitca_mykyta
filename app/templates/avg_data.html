@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div>
+        <h1>Results of the research!</h1>
+        <p style="font-size: 18px; font-style:italic; font-weight: bold;">
+            Our command recorded height & weight from 25 thousand of our users!
+        </p>
+        <p style="font-size: 16px;">Average height: {{ avg_data['avg_height'] }} cm</p>
+        <p style="font-size: 16px;">Average height: {{ avg_data['avg_weight'] }} kg</p>
+    </div>
+{% endblock %}

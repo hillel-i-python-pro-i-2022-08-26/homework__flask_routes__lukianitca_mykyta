@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div>
+        <h2>Welcome to our site! There some available articles: </h2>
+        <ul>
+            <li>
+                Random article <a href="{{ url_for('show_txt') }}">here</a>.
+            </li>
+            <li>
+                Top publishers of our wiki <a href="{{ url_for('show_users_info') }}">here</a>.
+            </li>
+            <li>
+                List of cosmonauts in space at the moment <a href="{{ url_for('show_cosmonauts') }}">here</a>.
+            </li>
+            <li>
+                Results of our huge research <a href="{{ url_for('calculate_people_info') }}">here</a>.
+            </li>
+        </ul>
+    </div>
+{% endblock %}
