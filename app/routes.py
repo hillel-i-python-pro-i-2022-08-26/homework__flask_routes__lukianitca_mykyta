@@ -1,10 +1,12 @@
+from typing import Generator
+
 from flask import render_template, abort
+from webargs import fields
+from webargs.flaskparser import use_args
+
 from app import app
 from app.data_work import read_txt, get_average_data
 from .users_info import generate_users, get_cosmonauts
-from webargs import fields
-from webargs.flaskparser import use_args
-from typing import Generator
 
 
 @app.route("/")
@@ -14,17 +16,17 @@ def index():
 
 @app.route("/requirements")
 def show_txt():
-    text: str = read_txt()
-    return render_template("requirements.html", title="Requirements", text=text)
+    text_from_file: str = read_txt()
+    return render_template("requirements.html", title="Requirements", text=text_from_file)
 
 
 @app.route("/generate-users")
-@use_args({"user_num": fields.Int(missing=100)}, location="query")
+@use_args({"users_number": fields.Int(missing=100)}, location="query")
 def show_users_info(args: dict):
-    user_num: int = args["user_num"]
-    if user_num in range(1, 251):
-        users: Generator = generate_users(user_num)
-        return render_template("gen_users.html", title="Users Information", users_list=users)
+    users_amount_show: int = args["users_number"]
+    if users_amount_show in range(1, 251):
+        users_list: Generator = generate_users(users_amount_show)
+        return render_template("gen_users.html", title="Users Information", users_list=users_list)
     return abort(404, "Incorrect number of users")
 
 
