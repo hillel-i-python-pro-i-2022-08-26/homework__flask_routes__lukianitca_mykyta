@@ -45,9 +45,10 @@ def calculate_people_info():
 @app.route("/add-new-contact")
 @use_args({"contact_name": fields.Str(required=True), "phone_number": fields.Str(required=True)}, location="query")
 def add_contact(args: dict):
+    operation_info = {"operation_name": "add", "is_successful": True}
     with ContactsTable() as contacts_table:
         contacts_table.add_new_contact(args)
-    return "Contact Added successfully"
+    return render_template("operation_status.html", operation_info=operation_info)
 
 
 @app.route("/update-contact")
@@ -56,26 +57,35 @@ def add_contact(args: dict):
 )
 def update_existing_contact(args: dict):
     user_id = args.pop("user_id")
+    operation_info = {"operation_name": "update"}
     with ContactsTable() as contacts_table:
         try:
             contacts_table.update_record(user_id=user_id, updates=args)
-            return f"Contact {user_id} updated"
+            operation_info["is_successful"] = True
+            return render_template("operation_status.html", operation_info=operation_info)
         except ValueError:
-            return "Nothing was sent to update"
+            operation_info["is_successful"] = False
+            return render_template("operation_status.html", operation_info=operation_info)
 
 
 @app.route("/delete-contact/<int:user_id>")
 def delete_contact(user_id: int):
+    operation_info = {"operation_name": "add", "is_successful": True}
     with ContactsTable() as contacts_table:
         contacts_table.delete_record(user_id=user_id)
-    return render_template()
+    return render_template("operation_status.html", operation_info=operation_info)
 
 
 @app.route("/read/<int:user_id>")
 def get_one_contact(user_id: int):
+    operation_info = {"operation_name": "get one"}
     with ContactsTable() as contacts_table:
         contact = contacts_table.get_one_record(user_id=user_id)
-        return contact["contact_name"]
+    if not contact:
+        operation_info["is_successful"] = False
+        return render_template("operation_status.html", operation_info=operation_info)
+    operation_info["is_successful"] = True
+    return render_template("operation_status.html", operation_info=operation_info)
 
 
 @app.route("/read-all")
