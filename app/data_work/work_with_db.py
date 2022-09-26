@@ -1,9 +1,9 @@
 import sqlite3
 
-from db_core import UsersDB
+from app.data_work.db_core import UsersDB
 
 
-class TelephoneBookTable(UsersDB):
+class ContactsTable(UsersDB):
     def create_table(self):
         self.connection.execute(
             """CREATE TABLE IF NOT EXISTS telephones (

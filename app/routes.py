@@ -5,8 +5,11 @@ from webargs import fields
 from webargs.flaskparser import use_args
 
 from app import app
-from app.data_work import read_txt, get_average_data
+from app.data_work import read_txt, get_average_data, ContactsTable
 from .users_info import generate_users, get_cosmonauts
+
+
+# from app.data_work.work_with_db import ContactsTable
 
 
 @app.route("/")
@@ -40,3 +43,18 @@ def show_cosmonauts():
 def calculate_people_info():
     avg_data: dict = get_average_data()
     return render_template("avg_data.html", title="Live research", avg_data=avg_data)
+
+
+@app.route("/add-new-contact")
+@use_args({"contact_name": fields.Str(required=True), "phone_number": fields.Str(required=True)}, location="query")
+def add_contact(args: dict):
+    with ContactsTable() as contacts_table:
+        contacts_table.add_new_contact(args)
+    return "Contact Added successfully"
+
+
+@app.route("/update-contact/<int:user_id>")
+@use_args({"contact_name": fields.Str(), "phone_number": fields.Str()}, location="query")
+def update_existing_contact(user_id: int, args: dict):
+    with ContactsTable() as contacts_table:
+        contacts_table.update_record(user_id, updates=args)
