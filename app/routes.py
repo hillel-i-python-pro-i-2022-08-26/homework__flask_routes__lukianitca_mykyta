@@ -9,9 +9,6 @@ from app.data_work import read_txt, get_average_data, ContactsTable
 from .users_info import generate_users, get_cosmonauts
 
 
-# from app.data_work.work_with_db import ContactsTable
-
-
 @app.route("/")
 def index():
     return render_template("index.html", title="Main Page")
@@ -53,8 +50,22 @@ def add_contact(args: dict):
     return "Contact Added successfully"
 
 
-@app.route("/update-contact/<int:user_id>")
-@use_args({"contact_name": fields.Str(), "phone_number": fields.Str()}, location="query")
-def update_existing_contact(user_id: int, args: dict):
+@app.route("/update-contact")
+@use_args(
+    {"user_id": fields.Int(required=True), "contact_name": fields.Str(), "phone_number": fields.Str()}, location="query"
+)
+def update_existing_contact(args: dict):
+    user_id = args.pop("user_id")
     with ContactsTable() as contacts_table:
-        contacts_table.update_record(user_id, updates=args)
+        try:
+            contacts_table.update_record(pk=user_id, updates=args)
+            return f"Contact {user_id} updated"
+        except ValueError:
+            return "Nothing was sent to update"
+
+
+@app.route("/read/<int:user_id>")
+def get_one_contact(user_id: int):
+    with ContactsTable() as contacts_table:
+        res = contacts_table.get_one_record(user_id=user_id)
+        return res["contact_name"]
