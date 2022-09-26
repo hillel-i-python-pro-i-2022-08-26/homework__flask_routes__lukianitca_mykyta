@@ -1,3 +1,5 @@
+import sqlite3
+
 from db_core import UsersDB
 
 
@@ -11,3 +13,10 @@ class TelephoneBookTable(UsersDB):
             )"""
         )
         self.connection.commit()
+
+    def __enter__(self):
+        self.connection.row_factory = sqlite3.Row
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.connection.close()
