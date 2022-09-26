@@ -14,6 +14,12 @@ class TelephoneBookTable(UsersDB):
         )
         self.connection.commit()
 
+    def add_new_contact(self, contact_info):
+        self.connection.execute(
+            "INSERT INTO telephones (contact_name, phone_number) VALUES (:contact_name, :phone_number)", contact_info
+        )
+        self.connection.commit()
+
     def __enter__(self):
         self.connection.row_factory = sqlite3.Row
         return self
