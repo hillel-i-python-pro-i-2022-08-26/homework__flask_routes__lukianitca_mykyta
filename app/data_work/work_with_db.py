@@ -20,6 +20,14 @@ class TelephoneBookTable(UsersDB):
         )
         self.connection.commit()
 
+    def update_record(self, pk: int, updates: dict):
+        if not updates:
+            raise ValueError
+        rows = ", ".join([f"{row}=:{row}" for row in updates])
+        updates["pk"] = pk
+        self.connection.execute(f"UPDATE telephones SET {rows} WHERE pk=:pk", updates)
+        self.connection.commit()
+
     def __enter__(self):
         self.connection.row_factory = sqlite3.Row
         return self
