@@ -24,7 +24,7 @@ class ContactsTable(UsersDB):
         return self.connection.execute("SELECT * FROM telephones WHERE pk=:pk;", {"pk": user_id}).fetchone()
 
     def get_all_records(self):
-        return self.connection.execute("SELECT * FROM telephones").fetchall()
+        return self.connection.execute("SELECT * FROM telephones ORDER BY contact_name").fetchall()
 
     def update_record(self, user_id: int, updates: dict):
         if not updates:
