@@ -131,4 +131,5 @@ dmypy.json
 # Another stuff
 .idea/
 test.py
+app/test.css
 app/data_work/storage/users.db
