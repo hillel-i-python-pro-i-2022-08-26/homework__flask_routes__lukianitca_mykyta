@@ -21,15 +21,21 @@ class ContactsTable(UsersDB):
         self.connection.commit()
 
     def get_one_record(self, user_id: int):
-        return self.connection.execute("SELECT * FROM telephones WHERE (pk=:pk);", {"pk": 1}).fetchone()
+        return self.connection.execute("SELECT * FROM telephones WHERE pk=:pk;", {"pk": user_id}).fetchone()
 
-    def update_record(self, pk: int, updates: dict):
+    def get_all_records(self):
+        return self.connection.execute("SELECT * FROM telephones").fetchall()
+
+    def update_record(self, user_id: int, updates: dict):
         if not updates:
             raise ValueError
         rows = ", ".join([f"{row}=:{row}" for row in updates])
-        updates["pk"] = pk
+        updates["pk"] = user_id
         self.connection.execute(f"UPDATE telephones SET {rows} WHERE pk=:pk;", updates)
         self.connection.commit()
+
+    def delete_record(self, user_id: int):
+        self.connection.execute("DELETE FROM telephones WHERE pk=:pk;", {"pk": user_id})
 
     def __enter__(self):
         self.connection.row_factory = sqlite3.Row

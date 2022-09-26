@@ -58,14 +58,28 @@ def update_existing_contact(args: dict):
     user_id = args.pop("user_id")
     with ContactsTable() as contacts_table:
         try:
-            contacts_table.update_record(pk=user_id, updates=args)
+            contacts_table.update_record(user_id=user_id, updates=args)
             return f"Contact {user_id} updated"
         except ValueError:
             return "Nothing was sent to update"
 
 
+@app.route("/delete-contact/<int:user_id>")
+def delete_contact(user_id: int):
+    with ContactsTable() as contacts_table:
+        contacts_table.delete_record(user_id=user_id)
+    return render_template()
+
+
 @app.route("/read/<int:user_id>")
 def get_one_contact(user_id: int):
     with ContactsTable() as contacts_table:
-        res = contacts_table.get_one_record(user_id=user_id)
-        return res["contact_name"]
+        contact = contacts_table.get_one_record(user_id=user_id)
+        return contact["contact_name"]
+
+
+@app.route("/read-all")
+def read_all_contacts():
+    with ContactsTable() as contacts_table:
+        contacts = contacts_table.get_all_records()
+        return "<br>".join([f'{el["contact_name"]}' for el in contacts])
