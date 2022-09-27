@@ -13,7 +13,7 @@ class ContactsTable(UsersDB):
             );"""
         )
 
-    def add_new_contact(self, contact_info):
+    def add_new_contact(self, contact_info: dict):
         self.connection.execute(
             "INSERT INTO telephones (contact_name, phone_number) VALUES (:contact_name, :phone_number);", contact_info
         )

@@ -76,7 +76,7 @@ def delete_contact(user_id: int):
 
 
 @app.route("/read/<int:user_id>")
-def get_one_contact(user_id: int):
+def read_one_contact(user_id: int):
     with ContactsTable() as contacts_table:
         contact = contacts_table.get_one_record(user_id=user_id)
     if contact:
