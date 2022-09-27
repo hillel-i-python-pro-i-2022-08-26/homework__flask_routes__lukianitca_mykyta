@@ -12,7 +12,6 @@ class ContactsTable(UsersDB):
                 phone_number VARCHAR NOT NULL
             );"""
         )
-        self.connection.commit()
 
     def add_new_contact(self, contact_info):
         self.connection.execute(
@@ -36,6 +35,7 @@ class ContactsTable(UsersDB):
 
     def delete_record(self, user_id: int):
         self.connection.execute("DELETE FROM telephones WHERE pk=:pk;", {"pk": user_id})
+        self.connection.commit()
 
     def __enter__(self):
         self.connection.row_factory = sqlite3.Row
@@ -43,3 +43,8 @@ class ContactsTable(UsersDB):
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         self.connection.close()
+
+
+def tables_init():
+    with ContactsTable() as contact_table:
+        contact_table.create_table()
