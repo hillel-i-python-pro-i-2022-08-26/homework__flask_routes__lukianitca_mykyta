@@ -89,4 +89,4 @@ def read_one_contact(user_id: int):
 def read_all_contacts():
     with ContactsTable() as contacts_table:
         contacts = contacts_table.get_all_records()
-        return render_template("all_contacts.html", contacts=contacts)
+    return render_template("all_contacts.html", contacts=contacts)
