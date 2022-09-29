@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block style %}
+    .contacts-header {
+        margin-bottom: 30px;
+    }
+
+    .contacts-list > li {
+        list-style-type: none;
+    }
+    .phone_number {
+        font-weight: bold;
+        font-style: italic;
+    }
+
+    .contact__info {
+        display: flex;
+        width: 400px;
+        height: 100px;
+        margin-top: 15px;
+    }
+
+    .contact__image {
+        border: black 1px solid;
+        text-align: center;
+    }
+
+    .contact__image h4 {
+        margin: auto 10px;
+        padding: auto;
+    }
+
+    .contact__data {
+        margin-left: 20px;
+    }
+
+    .empty-contacts {
+        font-size: 20px;
+    }
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="contacts-header">Your contacts:</h2>
+    <ul class="contacts-list">
+        {% if contacts %}
+            {% for contact in contacts %}
+                <li class="contact">
+                    <div class="contact__info">
+                        <div class="contact__image">
+                            <h4>Profile Pic.</h4>
+                        </div>
+                        <div class="contact__data">
+                            <h3>Contact name: {{ contact['contact_name'] }}</h3>
+                            <p class="phone_number">Phone number: {{ contact['phone_number'] }}</p>
+                        </div>
+                    </div>
+                </li>
+            {% endfor %}
+        {% else %}
+            <p class="empty-contacts">Sorry, it is empty for now :(</p>
+        {% endif %}
+    </ul>
+</div>
+{% endblock %}

@@ -5,7 +5,7 @@ from webargs import fields
 from webargs.flaskparser import use_args
 
 from app import app
-from app.data_work import read_txt, get_average_data
+from app.data_work import read_txt, get_average_data, ContactsTable
 from .users_info import generate_users, get_cosmonauts
 
 
@@ -40,3 +40,53 @@ def show_cosmonauts():
 def calculate_people_info():
     avg_data: dict = get_average_data()
     return render_template("avg_data.html", title="Live research", avg_data=avg_data)
+
+
+@app.route("/add-new-contact")
+@use_args({"contact_name": fields.Str(required=True), "phone_number": fields.Str(required=True)}, location="query")
+def add_contact(args: dict):
+    operation_info = {"operation_name": "add", "is_successful": True}
+    with ContactsTable() as contacts_table:
+        contacts_table.add_new_contact(args)
+    return render_template("operation_status.html", operation_info=operation_info)
+
+
+@app.route("/update-contact")
+@use_args(
+    {"user_id": fields.Int(required=True), "contact_name": fields.Str(), "phone_number": fields.Str()}, location="query"
+)
+def update_existing_contact(args: dict):
+    user_id = args.pop("user_id")
+    operation_info = {"operation_name": "update", "is_successful": False}
+    with ContactsTable() as contacts_table:
+        try:
+            contacts_table.update_record(user_id=user_id, updates=args)
+            operation_info["is_successful"] = True
+            return render_template("operation_status.html", operation_info=operation_info)
+        except ValueError:
+            return render_template("operation_status.html", operation_info=operation_info)
+
+
+@app.route("/delete-contact/<int:user_id>")
+def delete_contact(user_id: int):
+    operation_info = {"operation_name": "delete", "is_successful": True}
+    with ContactsTable() as contacts_table:
+        contacts_table.delete_record(user_id=user_id)
+    return render_template("operation_status.html", operation_info=operation_info)
+
+
+@app.route("/read/<int:user_id>")
+def read_one_contact(user_id: int):
+    with ContactsTable() as contacts_table:
+        contact = contacts_table.get_one_record(user_id=user_id)
+    if contact:
+        return render_template("one_contact.html", contact=contact)
+    operation_info = {"operation_name": "get one", "is_successful": False}
+    return render_template("operation_status.html", operation_info=operation_info)
+
+
+@app.route("/read-all")
+def read_all_contacts():
+    with ContactsTable() as contacts_table:
+        contacts = contacts_table.get_all_records()
+    return render_template("all_contacts.html", contacts=contacts)

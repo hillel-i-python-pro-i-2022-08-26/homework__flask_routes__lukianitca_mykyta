@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div>
+    {% if operation_info['is_successful'] %}
+        <h2>Operation {{ operation_info['operation_name'] }} contact successful</h2>
+    {% else %}
+        <h2>In operation {{ operation_info['operation_name'] }} contact something went wrong :(</h2>
+    {% endif %}
+</div>
+{% endblock %}
